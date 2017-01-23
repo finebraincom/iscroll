@@ -29,8 +29,8 @@
   "homepage": "http://iscrolljs.com",
   "ignore": [
     "**/.*",
-    "build/*",
     "demos/*",
+	"dist/*",
     "*.md",
     "*.tmp",
     "build.js",
