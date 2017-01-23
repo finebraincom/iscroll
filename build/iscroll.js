@@ -333,6 +333,7 @@ function IScroll (el, options) {
 		disableMouse : utils.hasPointer || utils.hasTouch,
 		startX: 0,
 		startY: 0,
+		bottomOffset: 0,
 		scrollY: true,
 		directionLockThreshold: 5,
 		momentum: true,
@@ -754,7 +755,7 @@ IScroll.prototype = {
 		utils.getRect(this.wrapper);		// Force reflow
 
 		this.wrapperWidth	= this.wrapper.clientWidth;
-		this.wrapperHeight	= this.wrapper.clientHeight;
+		this.wrapperHeight	= this.wrapper.clientHeight - this.options.bottomOffset;
 
 		var rect = utils.getRect(this.scroller);
 /* REPLACE START: refresh */
@@ -769,7 +770,7 @@ IScroll.prototype = {
 
 		this.hasHorizontalScroll	= this.options.scrollX && this.maxScrollX < 0;
 		this.hasVerticalScroll		= this.options.scrollY && this.maxScrollY < 0;
-		
+
 		if ( !this.hasHorizontalScroll ) {
 			this.maxScrollX = 0;
 			this.scrollerWidth = this.wrapperWidth;
@@ -783,7 +784,7 @@ IScroll.prototype = {
 		this.endTime = 0;
 		this.directionX = 0;
 		this.directionY = 0;
-		
+
 		if(utils.hasPointer && !this.options.disablePointer) {
 			// The wrapper should have `touchAction` property for using pointerEvent.
 			this.wrapper.style[utils.style.touchAction] = utils.getTouchAction(this.options.eventPassthrough, true);
@@ -802,7 +803,7 @@ IScroll.prototype = {
 
 // INSERT POINT: _refresh
 
-	},	
+	},
 
 	on: function (type, fn) {
 		if ( !this._events[type] ) {
@@ -1032,6 +1033,7 @@ IScroll.prototype = {
 
 		return { x: x, y: y };
 	},
+
 	_initIndicators: function () {
 		var interactive = this.options.interactiveScrollbars,
 			customStyle = typeof this.options.scrollbars != 'string',
